@@ -7,6 +7,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatCheckBox
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.mystore.R
 
 class RegisterActivity : BaseActivity() {
@@ -18,7 +20,7 @@ class RegisterActivity : BaseActivity() {
 
         val btnRegister = findViewById<Button>(R.id.btn_register)
         btnRegister.setOnClickListener {
-            validateRegisterDetails()
+            registerUser()
         }
 
         val tvLogin = findViewById<TextView>(R.id.tv_login)
@@ -99,10 +101,33 @@ class RegisterActivity : BaseActivity() {
                 false
             }
             else -> {
-                showErrorSnackBar("Your details are valid.",
-                    false)
+//                showErrorSnackBar("Your details are valid.", false)
                 true
             }
+        }
+    }
+    private fun registerUser() {
+        val etEmail = findViewById<EditText>(R.id.et_email).text.toString().trim { it <= ' ' }
+        val etPassword = findViewById<EditText>(R.id.et_password).text.toString().trim { it <= ' ' }
+
+        if (validateRegisterDetails()){
+
+            showProgressDialog(resources.getString(R.string.please_wait))
+
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(etEmail, etPassword)
+                .addOnCompleteListener { task ->
+
+                    hideProgressDialog()
+
+                    if (task.isSuccessful) {
+                        val firebaseUser : FirebaseUser = task.result!!.user!!
+                        showErrorSnackBar(
+                            "You are registered successfully. Your user id is ${firebaseUser.uid}", false)
+                    }
+                    else {
+                        showErrorSnackBar(task.exception!!.message.toString(), true)
+                    }
+                }
         }
     }
 }
