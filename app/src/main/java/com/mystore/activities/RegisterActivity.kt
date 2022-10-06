@@ -25,7 +25,7 @@ class RegisterActivity : BaseActivity() {
 
         val tvLogin = findViewById<TextView>(R.id.tv_login)
         tvLogin.setOnClickListener {
-            startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+            onBackPressed()
         }
     }
 
@@ -121,8 +121,10 @@ class RegisterActivity : BaseActivity() {
 
                     if (task.isSuccessful) {
                         val firebaseUser : FirebaseUser = task.result!!.user!!
-                        showErrorSnackBar(
-                            "You are registered successfully. Your user id is ${firebaseUser.uid}", false)
+                        showErrorSnackBar("You are registered successfully. Your user id is ${firebaseUser.uid}", false)
+                        FirebaseAuth.getInstance().signOut()
+                        finish()
+
                     }
                     else {
                         showErrorSnackBar(task.exception!!.message.toString(), true)
