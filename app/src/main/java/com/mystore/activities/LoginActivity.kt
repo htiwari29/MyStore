@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.mystore.R
 import com.mystore.firestore.FirestoreClass
 import com.mystore.models.User
+import com.mystore.utils.Constants
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +68,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 false
             }
             else -> {
-//                showErrorSnackBar("Your details are valid.", false)
                 true
             }
         }
@@ -87,8 +87,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
 
-//                    hideProgressDialog()
-
                     if (task.isSuccessful) {
                         FirestoreClass().getUserDetails(this@LoginActivity)
 
@@ -107,8 +105,13 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         Log.i("First Name: ", user.firstName)
         Log.i("Last Name: ", user.lastName)
         Log.i("Email: ", user.email)
-
-        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+        if (user.profileCompleted == 0) {
+            val intent = Intent(this@LoginActivity, UserProfileActivity::class.java)
+//            intent.putExtra(Constants.EXTRA_USER_DETAILS, user)
+            startActivity(intent)
+        } else {
+            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+        }
         finish()
 
     }
