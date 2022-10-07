@@ -35,32 +35,25 @@ class FirestoreClass {
 
     fun getCurrentUserID(): String {
         val currentUser = FirebaseAuth.getInstance().currentUser
-
         var currentUserID = ""
         if (currentUser != null) {
             currentUserID = currentUser.uid
         }
-
         return currentUserID
     }
 
     fun getUserDetails(activity: Activity) {
-
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserID())
             .get()
             .addOnSuccessListener { document ->
-
                 Log.i(activity.javaClass.simpleName, document.toString())
-
                 val user = document.toObject(User::class.java)!!
-
                 val sharedPreferences =
                     activity.getSharedPreferences(
                         Constants.MYSTORE_PREFERENCES,
                         Context.MODE_PRIVATE
                     )
-
                 val editor: SharedPreferences.Editor = sharedPreferences.edit()
                 editor.putString(
                     Constants.LOGGED_IN_USERNAME,
@@ -86,7 +79,6 @@ class FirestoreClass {
 //                        activity.hideProgressDialog()
 //                    }
                 }
-
                 Log.e(
                     activity.javaClass.simpleName,
                     "Error while getting user details.",
