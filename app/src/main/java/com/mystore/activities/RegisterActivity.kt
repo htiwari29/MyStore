@@ -6,10 +6,13 @@ import android.text.TextUtils
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatCheckBox
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.mystore.R
+import com.mystore.firestore.FirestoreClass
+import com.mystore.models.User
 
 class RegisterActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,29 +110,50 @@ class RegisterActivity : BaseActivity() {
         }
     }
     private fun registerUser() {
-        val etEmail = findViewById<EditText>(R.id.et_email).text.toString().trim { it <= ' ' }
-        val etPassword = findViewById<EditText>(R.id.et_password).text.toString().trim { it <= ' ' }
+        val et_email = findViewById<EditText>(R.id.et_email)
+        val et_password = findViewById<EditText>(R.id.et_password)
+        val et_first_name = findViewById<EditText>(R.id.et_first_name)
+        val et_last_name = findViewById<EditText>(R.id.et_last_name)
 
         if (validateRegisterDetails()){
 
             showProgressDialog(resources.getString(R.string.please_wait))
 
-            FirebaseAuth.getInstance().createUserWithEmailAndPassword(etEmail, etPassword)
-                .addOnCompleteListener { task ->
+            val email: String = et_email.text.toString().trim { it <= ' ' }
+            val password: String = et_password.text.toString().trim { it <= ' ' }
 
-                    hideProgressDialog()
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
 
                     if (task.isSuccessful) {
                         val firebaseUser : FirebaseUser = task.result!!.user!!
-                        showErrorSnackBar("You are registered successfully. Your user id is ${firebaseUser.uid}", false)
-                        FirebaseAuth.getInstance().signOut()
-                        finish()
+                        val user = User(
+                            firebaseUser.uid,
+                            et_first_name.text.toString().trim { it <= ' ' },
+                            et_last_name.text.toString().trim { it <= ' ' },
+                            et_email.text.toString().trim { it <= ' ' }
+                        )
+                        FirestoreClass().registerUser(this@RegisterActivity, user)
 
                     }
                     else {
+                        hideProgressDialog()
                         showErrorSnackBar(task.exception!!.message.toString(), true)
                     }
                 }
         }
+    }
+    fun userRegistrationSuccess() {
+
+        hideProgressDialog()
+
+        Toast.makeText(
+            this@RegisterActivity,
+            resources.getString(R.string.register_success),
+            Toast.LENGTH_SHORT
+        ).show()
+
+        FirebaseAuth.getInstance().signOut()
+        finish()
     }
 }
