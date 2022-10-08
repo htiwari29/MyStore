@@ -163,13 +163,6 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
 
     fun imageUploadSuccess(imageURL: String) {
         mUserProfileImageURL = imageURL
-        hideProgressDialog()
-        Toast.makeText(
-            this@UserProfileActivity,
-            "Image uploaded successfully, : $imageURL",
-            Toast.LENGTH_SHORT
-        ).show()
-
         updateUserProfileDetails()
 
     }
@@ -210,15 +203,12 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
     }
 
     fun userProfileUpdateSuccess() {
-
         hideProgressDialog()
-
         Toast.makeText(
             this@UserProfileActivity,
             resources.getString(R.string.msg_profile_update_success),
             Toast.LENGTH_SHORT
         ).show()
-
         startActivity(Intent(this@UserProfileActivity, MainActivity::class.java))
         finish()
     }
