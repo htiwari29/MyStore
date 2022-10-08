@@ -18,7 +18,6 @@ import com.mystore.models.User
 import com.mystore.utils.Constants
 import com.mystore.utils.GlideLoader
 import kotlinx.android.synthetic.main.activity_user_profile.*
-import kotlinx.android.synthetic.main.activity_user_profile.et_email
 import java.io.IOException
 
 @Suppress("DEPRECATION")
@@ -48,12 +47,24 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         btn_save.setOnClickListener(this@UserProfileActivity)
     }
 
+    private fun setupActionBar() {
+
+        setSupportActionBar(toolbar_user_profile_activity)
+
+        val actionBar = supportActionBar
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true)
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_black_color_white_24dp)
+        }
+
+        toolbar_user_profile_activity.setNavigationOnClickListener { onBackPressed() }
+    }
+
     override fun onClick(v: View?) {
         if (v != null) {
             when (v.id) {
 
                 R.id.iv_user_photo -> {
-
                     if (ContextCompat.checkSelfPermission(
                             this,
                             Manifest.permission.READ_EXTERNAL_STORAGE
@@ -73,17 +84,17 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
                 R.id.btn_save -> {
 
                     if (validateUserProfileDetails()) {
-                        showErrorSnackBar("Your details are valid. You can update them.", false)
-//                        showProgressDialog(resources.getString(R.string.please_wait))
-//
-//                        if (mSelectedImageFileUri != null) {
-//                            FirestoreClass().uploadImageToCloudStorage(
-//                                this@UserProfileActivity,
-//                                mSelectedImageFileUri
-//                            )
-//                        } else {
-//                            updateUserProfileDetails()
-//                        }
+//                        showErrorSnackBar("Your details are valid. You can update them.", false)
+                        showProgressDialog(resources.getString(R.string.please_wait))
+
+                        if (mSelectedImageFileUri != null) {
+                            FirestoreClass().uploadImageToCloudStorage(
+                                this@UserProfileActivity,
+                                mSelectedImageFileUri
+                            )
+                        } else {
+                            updateUserProfileDetails()
+                        }
                     }
                 }
             }
@@ -148,5 +159,67 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         } else if (resultCode == Activity.RESULT_CANCELED) {
             Log.e("Request Cancelled", "Image selection cancelled")
         }
+    }
+
+    fun imageUploadSuccess(imageURL: String) {
+        mUserProfileImageURL = imageURL
+        hideProgressDialog()
+        Toast.makeText(
+            this@UserProfileActivity,
+            "Image uploaded successfully, : $imageURL",
+            Toast.LENGTH_SHORT
+        ).show()
+
+        updateUserProfileDetails()
+
+    }
+
+    private fun updateUserProfileDetails() {
+
+        val userHashMap = HashMap<String, Any>()
+        val firstName = et_first_name.text.toString().trim { it <= ' ' }
+        if (firstName != mUserDetails.firstName) {
+            userHashMap[Constants.FIRST_NAME] = firstName
+        }
+        val lastName = et_last_name.text.toString().trim { it <= ' ' }
+        if (lastName != mUserDetails.lastName) {
+            userHashMap[Constants.LAST_NAME] = lastName
+        }
+        val mobileNumber = et_mobile_number.text.toString().trim { it <= ' ' }
+        val gender = if (rb_male.isChecked) {
+            Constants.MALE
+        } else {
+            Constants.FEMALE
+        }
+        if (mUserProfileImageURL.isNotEmpty()) {
+            userHashMap[Constants.IMAGE] = mUserProfileImageURL
+        }
+        if (mobileNumber.isNotEmpty() && mobileNumber != mUserDetails.mobile.toString()) {
+            userHashMap[Constants.MOBILE] = mobileNumber.toLong()
+        }
+        if (gender.isNotEmpty() && gender != mUserDetails.gender) {
+            userHashMap[Constants.GENDER] = gender
+        }
+        if (mUserDetails.profileCompleted == 0) {
+            userHashMap[Constants.COMPLETE_PROFILE] = 1
+        }
+        FirestoreClass().updateUserProfileData(
+            this@UserProfileActivity,
+            userHashMap
+        )
+    }
+
+    fun userProfileUpdateSuccess() {
+
+        hideProgressDialog()
+
+        Toast.makeText(
+            this@UserProfileActivity,
+            resources.getString(R.string.msg_profile_update_success),
+            Toast.LENGTH_SHORT
+        ).show()
+
+        startActivity(Intent(this@UserProfileActivity, MainActivity::class.java))
+        finish()
     }
 }
