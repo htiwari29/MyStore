@@ -3,12 +3,14 @@ package com.mystore.firestore
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.Uri
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.mystore.activities.LoginActivity
 import com.mystore.activities.RegisterActivity
+import com.mystore.activities.UserProfileActivity
 import com.mystore.models.User
 import com.mystore.utils.Constants
 
@@ -86,5 +88,48 @@ class FirestoreClass {
                 )
             }
     }
+//    fun uploadImageToCloudStorage(activity: Activity, imageFileURI: Uri?) {
+//
+//        val sRef: StorageReference = FirebaseStorage.getInstance().reference.child(
+//            Constants.USER_PROFILE_IMAGE + System.currentTimeMillis() + "."
+//                    + Constants.getFileExtension(
+//                activity,
+//                imageFileURI
+//            )
+//        )
+//
+//        sRef.putFile(imageFileURI!!)
+//            .addOnSuccessListener { taskSnapshot ->
+//                Log.e(
+//                    "Firebase Image URL",
+//                    taskSnapshot.metadata!!.reference!!.downloadUrl.toString()
+//                )
+//
+//                taskSnapshot.metadata!!.reference!!.downloadUrl
+//                    .addOnSuccessListener { uri ->
+//                        Log.e("Downloadable Image URL", uri.toString())
+//
+//                        when (activity) {
+//                            is UserProfileActivity -> {
+//                                activity.imageUploadSuccess(uri.toString())
+//                            }
+//                        }
+//                    }
+//            }
+//            .addOnFailureListener { exception ->
+//
+//                when (activity) {
+//                    is UserProfileActivity -> {
+//                        activity.hideProgressDialog()
+//                    }
+//                }
+//
+//                Log.e(
+//                    activity.javaClass.simpleName,
+//                    exception.message,
+//                    exception
+//                )
+//            }
+//    }
 
 }

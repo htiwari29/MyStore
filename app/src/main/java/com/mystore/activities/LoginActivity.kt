@@ -107,7 +107,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         Log.i("Email: ", user.email)
         if (user.profileCompleted == 0) {
             val intent = Intent(this@LoginActivity, UserProfileActivity::class.java)
-//            intent.putExtra(Constants.EXTRA_USER_DETAILS, user)
+            intent.putExtra(Constants.EXTRA_USER_DETAILS, user)
             startActivity(intent)
         } else {
             startActivity(Intent(this@LoginActivity, MainActivity::class.java))
