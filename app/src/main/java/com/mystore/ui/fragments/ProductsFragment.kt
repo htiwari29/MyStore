@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.mystore.databinding.FragmentHomeBinding
+import com.mystore.databinding.FragmentProductsBinding
 
 @SuppressLint("SetTextI18n")
-class HomeFragment : Fragment() {
-    private var _binding: FragmentHomeBinding? = null
+class ProductsFragment : Fragment() {
+    private var _binding: FragmentProductsBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -19,11 +19,11 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentProductsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textHome
-        textView.text = "This is home Fragment"
+        textView.text = "This is products Fragment"
         return root
     }
 

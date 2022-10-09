@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.mystore.databinding.FragmentNotificationsBinding
+import com.mystore.databinding.FragmentOrdersBinding
 
 @SuppressLint("SetTextI18n")
-class NotificationsFragment : Fragment() {
-    private var _binding: FragmentNotificationsBinding? = null
+class OrdersFragment : Fragment() {
+    private var _binding: FragmentOrdersBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -19,10 +19,10 @@ class NotificationsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
+        _binding = FragmentOrdersBinding.inflate(inflater, container, false)
         val root: View = binding.root
         val textView: TextView = binding.textNotifications
-        textView.text = "This is notifications Fragment"
+        textView.text = "This is orders Fragment"
         return root
     }
 
