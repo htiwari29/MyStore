@@ -33,15 +33,28 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
         if (intent.hasExtra(Constants.EXTRA_USER_DETAILS)) {
             mUserDetails = intent.getParcelableExtra(Constants.EXTRA_USER_DETAILS)!!
         }
-
-        et_first_name.isEnabled = false
         et_first_name.setText(mUserDetails.firstName)
-
-        et_last_name.isEnabled = false
         et_last_name.setText(mUserDetails.lastName)
-
         et_email.isEnabled = false
         et_email.setText(mUserDetails.email)
+
+        if (mUserDetails.profileCompleted == 0) {
+            tv_title.text = resources.getString(R.string.title_complete_profile)
+            et_first_name.isEnabled = false
+            et_last_name.isEnabled = false
+        } else {
+            setupActionBar()
+            tv_title.text = resources.getString(R.string.title_edit_profile)
+            GlideLoader(this@UserProfileActivity).loadUserPicture(mUserDetails.image, iv_user_photo)
+            if (mUserDetails.mobile != 0L) {
+                et_mobile_number.setText(mUserDetails.mobile.toString())
+            }
+            if (mUserDetails.gender == Constants.MALE) {
+                rb_male.isChecked = true
+            } else {
+                rb_female.isChecked = true
+            }
+        }
 
         iv_user_photo.setOnClickListener(this@UserProfileActivity)
         btn_save.setOnClickListener(this@UserProfileActivity)
@@ -206,7 +219,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
             resources.getString(R.string.msg_profile_update_success),
             Toast.LENGTH_SHORT
         ).show()
-        startActivity(Intent(this@UserProfileActivity, MainActivity::class.java))
+        startActivity(Intent(this@UserProfileActivity, DashboardActivity::class.java))
         finish()
     }
 }
