@@ -175,5 +175,7 @@
     <string name="title_home">Home</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_carts">Cart</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="title_dashboard">Dashboard</string>
 
 </resources>

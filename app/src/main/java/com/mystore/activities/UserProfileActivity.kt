@@ -82,9 +82,7 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
                 }
 
                 R.id.btn_save -> {
-
                     if (validateUserProfileDetails()) {
-//                        showErrorSnackBar("Your details are valid. You can update them.", false)
                         showProgressDialog(resources.getString(R.string.please_wait))
 
                         if (mSelectedImageFileUri != null) {
@@ -164,7 +162,6 @@ class UserProfileActivity : BaseActivity(), View.OnClickListener {
     fun imageUploadSuccess(imageURL: String) {
         mUserProfileImageURL = imageURL
         updateUserProfileDetails()
-
     }
 
     private fun updateUserProfileDetails() {
