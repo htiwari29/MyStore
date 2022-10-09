@@ -1,7 +1,6 @@
-package com.mystore.activities
+package com.mystore.ui.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log

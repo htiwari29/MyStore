@@ -1,8 +1,7 @@
-package com.mystore.activities
+package com.mystore.ui.activities
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -11,8 +10,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.mystore.R
 import com.mystore.databinding.ActivityDashboardBinding
 
-class DashboardActivity : AppCompatActivity() {
-
+class DashboardActivity : BaseActivity() {
     private lateinit var binding: ActivityDashboardBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,9 +25,7 @@ class DashboardActivity : AppCompatActivity() {
                 R.drawable.app_gradient_color_background
             )
         )
-
         val navView: BottomNavigationView = binding.navView
-
         val navController = findNavController(R.id.nav_host_fragment_activity_dashboard)
         val appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -38,5 +34,9 @@ class DashboardActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    override fun onBackPressed() {
+        doubleBackToExit()
     }
 }

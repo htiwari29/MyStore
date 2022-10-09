@@ -1,4 +1,4 @@
-package com.mystore.activities
+package com.mystore.ui.activities
 
 import android.Manifest
 import android.app.Activity

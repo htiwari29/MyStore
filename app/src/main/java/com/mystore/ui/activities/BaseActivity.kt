@@ -1,4 +1,4 @@
-package com.mystore.activities
+package com.mystore.ui.activities
 
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.mystore.R
 
+@Suppress("DEPRECATION")
 open class BaseActivity : AppCompatActivity() {
     private var doubleBackToExitPressedOnce = false
     private lateinit var mProgressDialog: Dialog
@@ -59,7 +60,6 @@ open class BaseActivity : AppCompatActivity() {
             resources.getString(R.string.please_click_back_again_to_exit),
             Toast.LENGTH_SHORT
         ).show()
-        @Suppress("DEPRECATION")
         Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
     }
 }

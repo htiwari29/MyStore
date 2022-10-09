@@ -10,9 +10,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.mystore.activities.LoginActivity
-import com.mystore.activities.RegisterActivity
-import com.mystore.activities.UserProfileActivity
+import com.mystore.ui.activities.LoginActivity
+import com.mystore.ui.activities.RegisterActivity
+import com.mystore.ui.activities.UserProfileActivity
 import com.mystore.models.User
 import com.mystore.utils.Constants
 
