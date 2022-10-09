@@ -14,6 +14,7 @@ import com.mystore.ui.activities.LoginActivity
 import com.mystore.ui.activities.RegisterActivity
 import com.mystore.ui.activities.UserProfileActivity
 import com.mystore.models.User
+import com.mystore.ui.activities.SettingsActivity
 import com.mystore.utils.Constants
 
 class FirestoreClass {
@@ -69,9 +70,9 @@ class FirestoreClass {
                     is LoginActivity -> {
                         activity.userLoggedInSuccess(user)
                     }
-//                    is SettingsActivity-> {
-//                        activity.userDetailsSuccess(user)
-//                    }
+                    is SettingsActivity -> {
+                        activity.userDetailsSuccess(user)
+                    }
                 }
             }
             .addOnFailureListener { e ->
@@ -79,9 +80,9 @@ class FirestoreClass {
                     is LoginActivity -> {
                         activity.hideProgressDialog()
                     }
-//                    is SettingsActivity -> {
-//                        activity.hideProgressDialog()
-//                    }
+                    is SettingsActivity -> {
+                        activity.hideProgressDialog()
+                    }
                 }
                 Log.e(
                     activity.javaClass.simpleName,
@@ -123,7 +124,7 @@ class FirestoreClass {
                 when (activity) {
                     is UserProfileActivity -> {
                         activity.hideProgressDialog()
-                        activity.showErrorSnackBar("This didn't work", true)
+                        activity.showErrorSnackBar("User Activity image error", true)
                     }
                 }
 
