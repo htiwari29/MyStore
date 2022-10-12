@@ -19,6 +19,7 @@ class GlideLoader(val context: Context) {
             e.printStackTrace()
         }
     }
+
     fun loadProductPicture(image: Any, imageView: ImageView) {
         try {
             Glide
